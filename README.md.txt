@@ -11,9 +11,8 @@ You should create one R script called run_analysis.R that does the following.
 4. Appropriately labels the data set with descriptive variable names. 
 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
-
 ##Background
-####Below is the relevant infomartion for the UCI HAR README file.
+####Below is the relevant information for the UCI HAR README file.
 
 "The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data. 
 
@@ -81,10 +80,9 @@ tBodyGyroJerkMean
 
 The complete list of variables of each feature vector is available in 'features.txt'"
 
-
 ##Working Directory
 
-The script assumes the working directory is the UCI HAR Dataset directory with the script in a seperate sub folder from the train and test subfolders.
+The script assumes the working directory is the UCI HAR Dataset directory with the script in a separate sub folder from the train and test subfolders.
 
 Example
 UCI HAR Dataset Directory (Working Directory)
@@ -92,13 +90,12 @@ UCI HAR Dataset Directory (Working Directory)
 *train directory
 *script directory
 *activity_labels
-*feautres
-*fastures_info
+*features
+*features_info
 *README
 
-
 ##Files Used
-Included in the orginal UCI HAR data set are a numebr of files. Below is the list of files used for this project.
+Included in the original UCI HAR data set are a number of files. Below is the list of files used for this project.
 
 *'features.txt': List of all features.
 *'activity_labels.txt': Links the class labels with their activity name.
@@ -112,36 +109,21 @@ Included in the orginal UCI HAR data set are a numebr of files. Below is the lis
 NOTE: the files 'README.txt' and 'features_info.txt' were used as reference documents, but are not part of the script.
 
 ##Analysis/Script Explanation
-####Steps will be broken down for each section of the run_analysis.R script. Each section of the script is seperated with a note describing the code below it.
+####Steps will be broken down for each section of the run_analysis.R script. Each section of the script is separated with a note describing the code below it.
 
-1. The script reads in the 6 main data sets needed: X data sets(Set of factor measures. One for train and one for test), Y data sets(Identifies activity ID for each row of the cooresponding Y data set. One for train and one for test), and Subject data sets(Identifies the subject ID for each row of the cooresponding Y data set. One for train and one for test).
-
+1. The script reads in the 6 main data sets needed: X data sets(Set of factor measures. One for train and one for test), Y data sets(Identifies activity ID for each row of the corresponding  Y data set. One for train and one for test), and Subject data sets(Identifies the subject ID for each row of the corresponding  Y data set. One for train and one for test).
 2. The Y(Activity IDs) data sets and the Subject(IDs) data sets are combined, one for test and one for train using column binding. 
-
 3. The joined data sets for step2 are column bound with the X(factor measures) data sets, one for test and one for train. 
-
-4. The two dat sets(one for test and one for train) created in step 3 are joined together by row binding).
-
-5. The first two columns of the merge data set from step 4 are changed to Subject and Activity, respectively. This was done so that their were seperate labels for each column. Before this point there were three columns labeled "V1".
-
-6. This step creates a list of which columns should be kept for a new subset data set. This step was needed to fullfill instruction step number 2. For each of the 17 signals denoted wtih t-(for time) or f-(for frequency) the cooresponding mean and standard devation columns were kept. If the signal had XYZ components the mean and standard deviation for each of those were kept. So if the signal had the 3-axial signals XYZ, 6 columns would have been kept: the mean and standard deviation for x,  the mean and standard deviation for y, and the mean and standard deviation for z.
-
+4. The two data sets(one for test and one for train) created in step 3 are joined together by row binding).
+5. The first two columns of the merge data set from step 4 are changed to Subject and Activity, respectively. This was done so that there were separate labels for each column. Before this point there were three columns labeled "V1".
+6. This step creates a list of which columns should be kept for a new subset data set. This step was needed to fulfill instruction step number 2. For each of the 17 signals denoted with t-(for time) or f-(for frequency) the corresponding mean and standard deviation  columns were kept. If the signal had XYZ components the mean and standard deviation for each of those were kept. So if the signal had the 3-axial signals XYZ, 6 columns would have been kept: the mean and standard deviation for x,  the mean and standard deviation for y, and the mean and standard deviation for z.
 The list created identifies the column index number for those to be kept. Columns 1 and 2 are included because they contain the activity and subject IDs.
-
-7. Creates a new dataframe,AvgSdSub, that is the subset of the data frame created in step 5 with only the columns noted in step 6. 
-
-8. Reads in the file containing the activity labels and IDs. This step also changes the column names so that there are no issues with different data frams having the same column names for seperate varaiables.
-
-9. This steps merges the activty dataframe from step 8 with the subset dataframe created in step 7 so that we can see the activity label/description rather than just the ID.
-
-10. This step removes the activity ID from the dataframe created in step 9 so that we only have the activity description.
-
-11. Creates a list of the column names that should be applied to the dataframe in step 10. The column names (except the first two) were taken from the 'features.txt' file for the coorsponding data.
-
-12. Applies the column names from step 11 to the dataframe from step 10.
-
-13. The Subject ID column in the AvgSdSubWlab dataframe from step 10 was in the from of integer. This step changes the column to a favtor variable.
-
-14. This step fullfills the final instruction to create an independent tidy data set with the average of each variable for each activity and each subject. Thois is acheived with the aggregate function. It is aggragating the feature mesures from all columns except 1 and 2 (Activity Description and subject ID) by averaging them by columns 1 and 2 (Activity Description and subject ID).
-
-15. This steps writes the aggregated dataframe from step 14 to a text file.
+7. Creates a new dataframe, AvgSdSub, that is the subset of the data frame created in step 5 with only the columns noted in step 6. 
+8. Reads in the file containing the activity labels and IDs. This step also changes the column names so that there are no issues with different data frames having the same column names for separate variables.
+9. This steps merges the activity data frame from step 8 with the subset data frame created in step 7 so that we can see the activity label/description rather than just the ID.
+10. This step removes the activity ID from the data frame created in step 9 so that we only have the activity description.
+11. Creates a list of the column names that should be applied to the data frame in step 10. The column names (except the first two) were taken from the 'features.txt' file for the coorsponding data.
+12. Applies the column names from step 11 to the data frame from step 10.
+13. The Subject ID column in the AvgSdSubWlab data frame from step 10 was in the form of integer. This step changes the column to a factor variable.
+14. This step fulfills the final instruction to create an independent tidy data set with the average of each variable for each activity and each subject. This is achieved with the aggregate function. It is aggregating  the feature measures from all columns except 1 and 2 (Activity Description and subject ID) by averaging them by columns 1 and 2 (Activity Description and subject ID).
+15. This step writes the aggregated data frame from step 14 to a text file.
